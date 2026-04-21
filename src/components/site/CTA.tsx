@@ -28,7 +28,7 @@ export function CTA() {
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <a
-                href="https://wa.me/6281200000000"
+                href="https://wa.me/6282164097066?text=Halo%20Commander%2C%20saya%20ingin%20briefing%20mission%20VIBOXS."
                 target="_blank"
                 rel="noreferrer"
                 className="group relative inline-flex items-center gap-2 rounded-2xl bg-[var(--gradient-aurora)] px-7 py-4 text-sm font-medium text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.02]"
@@ -45,7 +45,9 @@ export function CTA() {
                 hello@viboxs.id
               </a>
               <a
-                href="#"
+                href="https://wa.me/6282164097066?text=Halo%20Commander%2C%20saya%20ingin%20booking%20basecamp%20call."
+                target="_blank"
+                rel="noreferrer"
                 className="glass inline-flex items-center gap-2 rounded-2xl px-7 py-4 text-sm font-medium hover:bg-white/5 transition"
               >
                 <Calendar className="h-4 w-4" />

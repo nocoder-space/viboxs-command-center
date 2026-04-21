@@ -63,7 +63,9 @@ export function Navbar() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#contact"
+              href="https://wa.me/6282164097066?text=Halo%20Commander%2C%20saya%20ingin%20briefing%20mission%20VIBOXS."
+              target="_blank"
+              rel="noreferrer"
               className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-foreground/95 px-4 py-2 text-sm font-medium text-background transition-all hover:bg-foreground hover:shadow-[var(--shadow-glow-sm)]"
             >
               Launch Mission
