@@ -1,4 +1,4 @@
-import rangerPortrait from "@/assets/ranger-portrait.jpg";
+import rangerPortrait from "@/assets/commander-dede.jpg";
 
 const stats = [
   { v: "150+", k: "Missions Deployed" },
