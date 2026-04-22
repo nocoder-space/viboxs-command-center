@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Play, Sparkles } from "lucide-react";
 import heroAstronaut from "@/assets/hero-astronaut.png";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const WHATSAPP_URL =
   "https://wa.me/6282164097066?text=Halo%20Commander%2C%20saya%20ingin%20briefing%20mission%20VIBOXS.";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [scroll, setScroll] = useState(0);
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const [progress, setProgress] = useState(0); // 0..1 within hero scroll range
 
   useEffect(() => {
     let raf = 0;
@@ -18,7 +18,10 @@ export function Hero() {
         const el = sectionRef.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
-        setScroll(Math.max(0, -rect.top));
+        // progress increases as the section scrolls past the top of the viewport
+        const total = rect.height;
+        const passed = Math.min(Math.max(-rect.top, 0), total);
+        setProgress(passed / total);
       });
     };
     onScroll();
@@ -29,54 +32,50 @@ export function Hero() {
     };
   }, []);
 
-  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPointer({
-      x: (e.clientX - rect.left) / rect.width - 0.5,
-      y: (e.clientY - rect.top) / rect.height - 0.5,
-    });
-  };
-  const onPointerLeave = () => setPointer({ x: 0, y: 0 });
+  // Parallax math
+  // Headline lines drift opposite directions
+  const lineLeftX = -progress * 240; // px
+  const lineRightX = progress * 240; // px
+  const lineThirdX = -progress * 140;
 
-  // Parallax (subtle, controlled)
-  const bgShift = scroll * 0.18;
-  const starsShift = scroll * 0.3;
-  const headlineShift = scroll * 0.18;
-  const astronautShift = scroll * -0.08;
-  const cardsShift = scroll * 0.12;
+  // Astronaut "sinks" down into boundary line
+  const astroY = progress * 220; // moves down
+  const astroScale = 1 - progress * 0.06; // gentle shrink
+  const astroOpacity = 1 - progress * 0.35;
 
-  // Pointer parallax for astronaut (small, polished)
-  const astroX = pointer.x * 14;
-  const astroY = pointer.y * 14;
+  // Background only fades slightly (static feel)
+  const bgFade = 1 - progress * 0.15;
 
   return (
     <section
       ref={sectionRef}
       id="top"
-      onPointerMove={onPointerMove}
-      onPointerLeave={onPointerLeave}
-      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20"
+      className="relative isolate overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-24 min-h-[100vh]"
     >
-      {/* Background nebula */}
+      {/* STATIC cinematic background */}
       <div
-        className="pointer-events-none absolute inset-0 -z-30"
-        style={{ transform: `translate3d(0, ${bgShift}px, 0)`, willChange: "transform" }}
+        className="pointer-events-none absolute inset-0 -z-40"
+        style={{ opacity: bgFade }}
       >
-        <div className="absolute left-1/2 top-[-15%] h-[60rem] w-[60rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,oklch(0.55_0.24_295/0.45),transparent_60%)] blur-3xl" />
-        <div className="absolute -left-40 top-[40%] h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.5_0.22_270/0.35),transparent_65%)] blur-3xl" />
-        <div className="absolute -right-32 top-[15%] h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.66_0.22_295/0.35),transparent_65%)] blur-3xl" />
+        <img
+          src={heroBg}
+          alt=""
+          aria-hidden
+          className="h-full w-full object-cover object-center"
+        />
+        {/* Dark vignette so text is always readable */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,oklch(0.09_0.025_285/0.55)_55%,oklch(0.07_0.025_285/0.92)_100%)]" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </div>
 
-      {/* Drifting stars */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-20 opacity-50"
-        style={{ transform: `translate3d(0, ${-starsShift}px, 0)`, willChange: "transform" }}
-      >
-        <div className="absolute inset-0 stars" />
+      {/* Soft purple aura behind astronaut (blurred bg accent) */}
+      <div className="pointer-events-none absolute inset-0 -z-30 flex items-center justify-center">
+        <div className="h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.6_0.25_295/0.55),transparent_60%)] blur-3xl animate-pulse-glow" />
       </div>
 
       <div className="relative mx-auto max-w-[1320px] px-4 sm:px-6">
-        {/* eyebrow */}
+        {/* Eyebrow */}
         <div className="flex">
           <div className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[10px] sm:text-xs font-mono tracking-[0.2em] text-muted-foreground animate-fade-up">
             <span className="relative flex h-1.5 w-1.5">
@@ -87,61 +86,60 @@ export function Hero() {
           </div>
         </div>
 
-        {/* HERO STAGE — astronaut centered, two stacked headlines wrap around it */}
+        {/* HERO STAGE */}
         <div className="relative mt-8 sm:mt-10">
-          {/* Astronaut layer — fixed, contained size, behind text */}
+          {/* Astronaut layer — clipped by a boundary line below */}
           <div
             className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
             style={{
-              transform: `translate3d(calc(-50% + ${astroX}px), calc(-50% + ${astronautShift + astroY}px), 0)`,
-              transition: "transform 240ms cubic-bezier(0.16,1,0.3,1)",
-              willChange: "transform",
+              transform: `translate3d(-50%, calc(-50% + ${astroY}px), 0) scale(${astroScale})`,
+              opacity: astroOpacity,
+              transition: "opacity 200ms linear",
+              willChange: "transform, opacity",
+              filter: "drop-shadow(0 30px 60px oklch(0.45 0.25 295 / 0.6))",
             }}
           >
-            {/* Soft halo */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[32rem] w-[32rem] sm:h-[40rem] sm:w-[40rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.6_0.25_295/0.55),transparent_60%)] blur-3xl animate-pulse-glow" />
             <img
               src={heroAstronaut}
               alt="VIBOXS Commander astronaut in cosmic purple armor"
               width={900}
               height={900}
-              className="relative block w-[260px] sm:w-[360px] md:w-[440px] lg:w-[520px] h-auto object-contain animate-float-slow drop-shadow-[0_30px_60px_oklch(0.45_0.25_295/0.5)]"
+              className="block w-[280px] sm:w-[360px] md:w-[440px] lg:w-[500px] h-auto object-contain animate-float-slow"
             />
           </div>
 
-          {/* Headline — two stacked lines, second offset right (like reference) */}
-          <div
-            className="relative z-20"
-            style={{
-              transform: `translate3d(0, ${-headlineShift}px, 0)`,
-              willChange: "transform",
-            }}
-          >
+          {/* Headline — three stacked lines, scroll-driven horizontal drift */}
+          <div className="relative z-20 pointer-events-none">
             <h1
               className="font-display font-semibold tracking-[-0.04em] leading-[0.88] text-foreground"
               style={{ fontSize: "clamp(2.6rem, 10vw, 9.5rem)" }}
             >
               <span
-                className="block animate-fade-up"
-                style={{ animationDelay: "60ms" }}
+                className="block animate-fade-up will-change-transform"
+                style={{
+                  animationDelay: "60ms",
+                  transform: `translate3d(${lineLeftX}px, 0, 0)`,
+                }}
               >
                 Your Startup idea
               </span>
               <span
-                className="block animate-fade-up text-gradient md:pl-[14%] lg:pl-[18%]"
+                className="block animate-fade-up text-gradient md:pl-[14%] lg:pl-[18%] will-change-transform"
                 style={{
                   animationDelay: "180ms",
                   textShadow: "0 0 80px oklch(0.66 0.22 295 / 0.4)",
+                  transform: `translate3d(${lineRightX}px, 0, 0)`,
                 }}
               >
                 starts with VIBOXS
               </span>
               <span
-                className="block animate-fade-up text-foreground/30 md:pl-[28%] lg:pl-[36%]"
+                className="block animate-fade-up md:pl-[28%] lg:pl-[36%] will-change-transform"
                 style={{
                   animationDelay: "300ms",
-                  WebkitTextStroke: "1px oklch(1 0 0 / 0.22)",
+                  WebkitTextStroke: "1px oklch(1 0 0 / 0.28)",
                   color: "transparent",
+                  transform: `translate3d(${lineThirdX}px, 0, 0)`,
                 }}
               >
                 Today.
@@ -149,8 +147,17 @@ export function Hero() {
             </h1>
           </div>
 
-          {/* Spacer — give astronaut + text composition room */}
-          <div className="h-[clamp(120px,18vw,260px)]" />
+          {/* Spacer giving astronaut + composition room */}
+          <div className="h-[clamp(140px,20vw,300px)]" />
+
+          {/* BOUNDARY LINE — the astronaut visually "sinks" into this line */}
+          <div className="relative z-20 mt-4 flex items-center gap-4">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+            <span className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground/70">
+              MISSION HORIZON
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+          </div>
 
           {/* Numbered list (right side of stage) */}
           <ul className="absolute right-0 top-1/2 z-30 hidden md:flex -translate-y-1/2 flex-col gap-3">
@@ -167,14 +174,8 @@ export function Hero() {
           </ul>
         </div>
 
-        {/* MID ROW — primary CTA + checks (like reference's BOOK NOW + checks) */}
-        <div
-          className="relative z-30 mt-4 sm:mt-6 grid items-center gap-6 md:grid-cols-12"
-          style={{
-            transform: `translate3d(0, ${-cardsShift}px, 0)`,
-            willChange: "transform",
-          }}
-        >
+        {/* MID ROW — primary CTA + checks */}
+        <div className="relative z-30 mt-8 sm:mt-10 grid items-center gap-6 md:grid-cols-12">
           <div className="md:col-span-5">
             <a
               href={WHATSAPP_URL}
@@ -212,15 +213,9 @@ export function Hero() {
           </div>
         </div>
 
-        {/* BOTTOM ROW — three info cards like the reference */}
-        <div
-          className="relative z-30 mt-10 grid gap-5 md:grid-cols-12"
-          style={{
-            transform: `translate3d(0, ${-cardsShift * 0.6}px, 0)`,
-            willChange: "transform",
-          }}
-        >
-          {/* Card 1: Pitch + secondary CTA */}
+        {/* BOTTOM ROW — three info cards */}
+        <div className="relative z-30 mt-10 grid gap-5 md:grid-cols-12">
+          {/* Card 1 */}
           <div className="md:col-span-4 glass rounded-2xl p-5 flex flex-col justify-between">
             <p className="text-sm leading-relaxed text-foreground/85">
               Bawa startup-mu ke level interstellar — strategi, build, dan launch
@@ -237,7 +232,7 @@ export function Hero() {
             </a>
           </div>
 
-          {/* Card 2: Manifesto paragraph */}
+          {/* Card 2 */}
           <div className="md:col-span-4 glass rounded-2xl p-5">
             <p className="text-sm leading-relaxed text-muted-foreground">
               <span className="text-foreground">
@@ -248,7 +243,7 @@ export function Hero() {
             </p>
           </div>
 
-          {/* Card 3: A journey into VIBOXS */}
+          {/* Card 3 */}
           <div className="md:col-span-4">
             <a
               href="#story"
@@ -279,7 +274,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* trust ticker */}
+        {/* Trust ticker */}
         <p className="mt-10 font-mono text-[10px] sm:text-xs tracking-[0.3em] text-muted-foreground/60">
           150+ MISSIONS DEPLOYED · 98% COMMANDER SATISFACTION · 24/7 BASECAMP · EST. 2024
         </p>
