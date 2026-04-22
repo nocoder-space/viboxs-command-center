@@ -33,29 +33,26 @@ export function Hero() {
     };
   }, []);
 
-  // Continuous lateral drift for kinetic split-typography
+  // Continuous, very subtle lateral drift for kinetic split-typography
   useEffect(() => {
     let raf = 0;
-    let start = performance.now();
+    const start = performance.now();
     const tick = (now: number) => {
       const t = (now - start) / 1000;
-      // slow sinusoidal motion
-      setDrift(Math.sin(t * 0.35) * 24);
+      setDrift(Math.sin(t * 0.3) * 14); // gentle, controlled
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // Parallax derivations
-  const lineLeftX = -progress * 220 + drift; // line drifts left + kinetic
-  const lineRightX = progress * 220 - drift; // line drifts right - kinetic
-  const lineCenterX = drift * 0.6;
-  const astroY = progress * 320; // sinking
-  const astroScale = 1 - progress * 0.06;
-  const astroOpacity = 1 - Math.max(0, progress - 0.55) * 2.2; // fade as it sinks
-  const bgFade = 1 - progress * 0.2;
-  const cardsY = -progress * 40;
+  // Parallax derivations — astronaut stays anchored, only sinks downward
+  const lineLeftX = -progress * 140 + drift;
+  const lineRightX = progress * 140 - drift;
+  const lineCenterX = drift * 0.5;
+  const astroSink = progress * 220; // sinks into lower haze
+  const astroOpacity = 1 - Math.max(0, progress - 0.55) * 2.0;
+  const cardsY = -progress * 30;
 
   return (
     <section
@@ -64,25 +61,26 @@ export function Hero() {
       className="relative isolate overflow-hidden pt-24 pb-16 sm:pt-28 sm:pb-20 min-h-[100vh]"
     >
       {/* ============ STATIC CINEMATIC BACKGROUND ============ */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-40"
-        style={{ opacity: bgFade }}
-      >
+      <div className="pointer-events-none absolute inset-0 -z-40">
         <img
           src={heroBg}
           alt=""
           aria-hidden
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover object-center scale-105"
+          style={{ filter: "blur(2px)" }}
         />
-        {/* Deep vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,oklch(0.09_0.025_285/0.55)_55%,oklch(0.06_0.025_285/0.96)_100%)]" />
-        {/* Right-side nebula glow */}
-        <div className="absolute right-[-10%] top-1/3 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.55_0.26_295/0.35),transparent_65%)] blur-3xl" />
-        {/* Lower purple haze */}
-        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-[oklch(0.18_0.12_295/0.35)] via-[oklch(0.09_0.025_285/0.5)] to-transparent" />
-        {/* Top + bottom fade to bg */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-background via-background/85 to-transparent" />
+        {/* Soft purple wash */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_60%_40%,oklch(0.32_0.18_295/0.35)_0%,transparent_55%)]" />
+        {/* Cinematic vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,oklch(0.07_0.025_285/0.6)_60%,oklch(0.05_0.025_285/0.96)_100%)]" />
+        {/* Right nebula bloom — soft */}
+        <div className="absolute right-[-15%] top-[20%] h-[44rem] w-[44rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.55_0.24_295/0.28),transparent_65%)] blur-3xl" />
+        {/* Top fade */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background/95 to-transparent" />
+        {/* Bottom atmospheric fog — astronaut absorbs into this */}
+        <div className="absolute inset-x-0 bottom-0 h-[30rem] bg-gradient-to-t from-background via-background/85 via-30% to-transparent" />
+        {/* Subtle grain */}
+        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay [background-image:radial-gradient(oklch(1_0_0)_1px,transparent_1px)] [background-size:3px_3px]" />
       </div>
 
       <div className="relative mx-auto max-w-[1320px] px-4 sm:px-6">
@@ -102,39 +100,44 @@ export function Hero() {
           {/* Giant faint outlined background word */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-[58%] -translate-y-1/2 z-0 flex justify-center select-none"
+            className="pointer-events-none absolute inset-x-0 top-[55%] -translate-y-1/2 z-0 flex justify-center select-none"
           >
             <span
               className="font-display font-black tracking-[-0.06em] leading-none whitespace-nowrap"
               style={{
-                fontSize: "clamp(8rem, 28vw, 26rem)",
-                WebkitTextStroke: "1px oklch(1 0 0 / 0.05)",
+                fontSize: "clamp(8rem, 26vw, 24rem)",
+                WebkitTextStroke: "1px oklch(1 0 0 / 0.045)",
                 color: "transparent",
-                transform: `translate3d(${-drift * 1.2}px, 0, 0)`,
+                transform: `translate3d(${-drift * 1.1}px, 0, 0)`,
               }}
             >
               Today.
             </span>
           </div>
 
-          {/* Stage container — astronaut + overlapping headline */}
-          <div className="relative h-[clamp(480px,74vh,780px)] w-full">
-            {/* Soft purple aura behind astronaut */}
+          {/* Stage container — astronaut anchored, headline overlaps */}
+          <div className="relative h-[clamp(520px,78vh,820px)] w-full">
+            {/* Soft purple aura — diffused, low intensity */}
             <div
-              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="pointer-events-none absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 z-[1]"
               aria-hidden
             >
-              <div className="h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.62_0.26_295/0.55),transparent_62%)] blur-3xl animate-pulse-glow" />
+              <div className="h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle_at_center,oklch(0.55_0.24_295/0.42),transparent_62%)] blur-3xl" />
             </div>
 
-            {/* ASTRONAUT — close-up, slightly left of center, sinks on scroll */}
+            {/* ASTRONAUT — anchored to bottom of stage, lower body absorbed by haze */}
             <div
-              className="absolute left-1/2 top-1/2 pointer-events-none select-none"
+              className="absolute left-1/2 bottom-0 pointer-events-none select-none z-[2]"
               style={{
-                transform: `translate3d(calc(-50% - 20px), calc(-50% + ${astroY}px), 0) scale(${astroScale})`,
+                transform: `translate3d(calc(-50% - 10px), ${astroSink}px, 0)`,
                 willChange: "transform, opacity",
                 opacity: Math.max(0, astroOpacity),
-                filter: "drop-shadow(0 40px 80px oklch(0.40 0.25 295 / 0.7))",
+                filter: "drop-shadow(0 30px 70px oklch(0.35 0.22 295 / 0.65))",
+                // Soft atmospheric clipping at the bottom — astronaut merges into fog
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.55) 88%, transparent 100%)",
+                maskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.55) 88%, transparent 100%)",
               }}
             >
               <img
@@ -142,57 +145,54 @@ export function Hero() {
                 alt="VIBOXS Commander astronaut in cosmic purple armor"
                 width={1100}
                 height={1100}
-                className="block w-[clamp(440px,64vw,860px)] h-auto object-contain animate-float-slow"
+                className="block w-[clamp(460px,62vw,820px)] h-auto object-contain"
               />
-              {/* Subtle backlight */}
-              <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_38%,oklch(0.7_0.28_295/0.28),transparent_55%)] mix-blend-screen" />
             </div>
 
-            {/* HEADLINE — kinetic split drift over the astronaut */}
-            <div className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-center">
+            {/* HEADLINE — kinetic split drift, layered OVER the astronaut */}
+            <div className="absolute inset-0 z-[5] pointer-events-none flex flex-col justify-center">
               <h1
-                className="font-display font-semibold tracking-[-0.045em] leading-[0.86]"
-                style={{ fontSize: "clamp(2.6rem, 10.5vw, 10rem)" }}
+                className="font-display font-semibold tracking-[-0.045em] leading-[0.88]"
+                style={{ fontSize: "clamp(2.6rem, 10.2vw, 9.5rem)" }}
               >
-                {/* Line 1 — drifts LEFT (kinetic) */}
+                {/* Line 1 — drifts LEFT */}
                 <span
                   className="block animate-fade-up will-change-transform"
                   style={{
                     animationDelay: "60ms",
                     transform: `translate3d(${lineLeftX}px, 0, 0)`,
-                    color: "oklch(1 0 0 / 0.94)",
-                    mixBlendMode: "screen",
+                    color: "oklch(0.99 0.01 285 / 0.95)",
                     textShadow:
-                      "0 2px 24px oklch(0.15 0.05 285 / 0.65), 0 0 60px oklch(0.66 0.22 295 / 0.3)",
+                      "0 1px 30px oklch(0.10 0.05 285 / 0.85), 0 0 70px oklch(0.55 0.22 295 / 0.35)",
                   }}
                 >
                   Your Start-up ideas
                 </span>
 
-                {/* Line 2 — drifts RIGHT (kinetic), violet gradient */}
+                {/* Line 2 — drifts RIGHT, refined translucent gradient */}
                 <span
-                  className="block animate-fade-up will-change-transform md:pl-[8%] lg:pl-[12%]"
+                  className="block animate-fade-up will-change-transform md:pl-[8%] lg:pl-[14%]"
                   style={{
                     animationDelay: "180ms",
                     transform: `translate3d(${lineRightX}px, 0, 0)`,
                     background:
-                      "linear-gradient(180deg, oklch(0.97 0.03 295 / 0.96) 0%, oklch(0.7 0.22 295 / 0.85) 100%)",
+                      "linear-gradient(180deg, oklch(0.99 0.02 285 / 0.96) 0%, oklch(0.78 0.16 295 / 0.78) 100%)",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     color: "transparent",
-                    textShadow: "0 0 80px oklch(0.66 0.22 295 / 0.35)",
+                    filter: "drop-shadow(0 2px 24px oklch(0.10 0.05 285 / 0.7))",
                   }}
                 >
                   starts with Us
                 </span>
 
-                {/* Line 3 — outlined, gentle center drift */}
+                {/* Line 3 — outlined transparent, gentle drift */}
                 <span
-                  className="block animate-fade-up will-change-transform md:pl-[22%] lg:pl-[30%]"
+                  className="block animate-fade-up will-change-transform md:pl-[22%] lg:pl-[32%]"
                   style={{
                     animationDelay: "300ms",
                     transform: `translate3d(${lineCenterX}px, 0, 0)`,
-                    WebkitTextStroke: "1px oklch(1 0 0 / 0.6)",
+                    WebkitTextStroke: "1px oklch(1 0 0 / 0.7)",
                     color: "transparent",
                   }}
                 >
@@ -202,12 +202,12 @@ export function Hero() {
             </div>
 
             {/* Vertical numbered list (right edge) */}
-            <ul className="absolute right-0 top-1/2 z-30 hidden md:flex -translate-y-1/2 flex-col gap-3">
+            <ul className="absolute right-0 top-1/2 z-[6] hidden md:flex -translate-y-1/2 flex-col gap-3">
               {["01", "02", "03"].map((n, i) => (
                 <li
                   key={n}
                   className={`font-mono text-[11px] tracking-[0.25em] transition ${
-                    i === 0 ? "text-primary-glow" : "text-muted-foreground/50"
+                    i === 0 ? "text-primary-glow" : "text-muted-foreground/45"
                   }`}
                 >
                   {n}
@@ -215,8 +215,8 @@ export function Hero() {
               ))}
             </ul>
 
-            {/* Service Pills — Website + AI Automation (mid-left float) */}
-            <div className="absolute left-0 bottom-6 z-30 hidden lg:flex flex-col gap-2.5">
+            {/* Service Pills — Website + AI Automation */}
+            <div className="absolute left-0 bottom-8 z-[6] hidden lg:flex flex-col gap-2.5">
               <div className="glass-strong inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-mono tracking-[0.18em] text-foreground">
                 <Globe className="h-3.5 w-3.5 text-primary-glow" />
                 WEBSITE SYSTEMS
@@ -228,19 +228,19 @@ export function Hero() {
             </div>
           </div>
 
-          {/* BOUNDARY LINE — astronaut sinks into this on scroll */}
-          <div className="relative z-20 mt-2 flex items-center gap-4">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+          {/* BOUNDARY LINE — astronaut sinks into this */}
+          <div className="relative z-[6] mt-2 flex items-center gap-4">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
             <span className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground/70">
               MISSION HORIZON · BUILD · AUTOMATE · LAUNCH
             </span>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
           </div>
         </div>
 
         {/* MID ROW — primary CTA + checks */}
         <div
-          className="relative z-30 mt-8 sm:mt-10 grid items-center gap-6 md:grid-cols-12"
+          className="relative z-[6] mt-8 sm:mt-10 grid items-center gap-6 md:grid-cols-12"
           style={{ transform: `translate3d(0, ${cardsY}px, 0)` }}
         >
           <div className="md:col-span-5">
@@ -282,7 +282,7 @@ export function Hero() {
 
         {/* BOTTOM ROW — three info cards */}
         <div
-          className="relative z-30 mt-10 grid gap-5 md:grid-cols-12"
+          className="relative z-[6] mt-10 grid gap-5 md:grid-cols-12"
           style={{ transform: `translate3d(0, ${cardsY * 1.4}px, 0)` }}
         >
           {/* Card 1 — Website */}
@@ -364,14 +364,14 @@ export function Hero() {
         </div>
 
         {/* Supporting tagline */}
-        <p className="relative z-30 mt-8 max-w-2xl text-sm leading-relaxed text-foreground/75">
+        <p className="relative z-[6] mt-8 max-w-2xl text-sm leading-relaxed text-foreground/75">
           <span className="text-foreground">Premium websites &amp; AI automation</span>{" "}
           untuk founder yang ingin launch lebih cepat, kerja lebih cerdas, dan
           scale tanpa friksi. VIBOXS membangun fondasi digital dan workflow
           intelligent yang mengubah ide jadi momentum bisnis nyata.
         </p>
 
-        <p className="mt-6 font-mono text-[10px] sm:text-xs tracking-[0.3em] text-muted-foreground/60">
+        <p className="relative z-[6] mt-6 font-mono text-[10px] sm:text-xs tracking-[0.3em] text-muted-foreground/60">
           150+ MISSIONS DEPLOYED · 98% COMMANDER SATISFACTION · 24/7 BASECAMP · EST. 2024
         </p>
       </div>
