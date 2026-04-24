@@ -87,8 +87,8 @@ export function RangersSection() {
           subtitle="Rangers adalah representasi capability VIBOXS. Di setiap project, kami menurunkan kemampuan yang paling relevan dengan kebutuhan client."
         />
 
-        <div className="mt-14 grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {rangers.map((r) => {
+        {(() => {
+          const renderCard = (r: Ranger) => {
             const Icon = r.icon;
             return (
               <article
@@ -115,8 +115,18 @@ export function RangersSection() {
                 </p>
               </article>
             );
-          })}
-        </div>
+          };
+          return (
+            <div className="mt-14 space-y-4 sm:space-y-5">
+              <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {rangers.slice(0, 4).map(renderCard)}
+              </div>
+              <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:mx-auto xl:max-w-[75%]">
+                {rangers.slice(4).map(renderCard)}
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="mt-12 flex justify-center">
           <a
