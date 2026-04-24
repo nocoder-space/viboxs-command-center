@@ -103,8 +103,8 @@ export function PricingSection() {
           subtitle="Kami menampilkan harga awal agar Anda punya gambaran. Final scope tetap disesuaikan dengan kebutuhan, fitur, timeline, integrasi, dan tingkat kompleksitas project."
         />
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {plans.map((p) => (
+        {(() => {
+          const renderCard = (p: (typeof plans)[number]) => (
             <article
               key={p.name}
               className={`relative rounded-3xl p-7 flex flex-col ${
@@ -149,8 +149,18 @@ export function PricingSection() {
                 <ArrowUpRight className="h-4 w-4" />
               </a>
             </article>
-          ))}
-        </div>
+          );
+          return (
+            <div className="mt-14 space-y-5">
+              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                {plans.slice(0, 3).map(renderCard)}
+              </div>
+              <div className="grid gap-5 md:grid-cols-2 lg:mx-auto lg:max-w-[66%]">
+                {plans.slice(3).map(renderCard)}
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="mt-10 glass rounded-2xl p-5 sm:p-6 flex items-start gap-4">
           <div className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/15 ring-1 ring-primary/30">
