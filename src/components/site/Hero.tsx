@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Check, Play, Sparkles, Globe, Cpu } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, Check, Sparkles, Globe, Cpu, ArrowRight } from "lucide-react";
 import heroAstronaut from "@/assets/hero-astronaut.png";
 import heroBg from "@/assets/hero-bg.jpg";
-
-const WHATSAPP_URL =
-  "https://wa.me/6282164097066?text=Halo%20Commander%2C%20saya%20ingin%20briefing%20mission%20VIBOXS%20(Website%20%2B%20AI%20Automation).";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
