@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Check, Play, Sparkles, Globe, Cpu } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, Check, Sparkles, Globe, Cpu, ArrowRight } from "lucide-react";
 import heroAstronaut from "@/assets/hero-astronaut.png";
 import heroBg from "@/assets/hero-bg.jpg";
-
-const WHATSAPP_URL =
-  "https://wa.me/6282164097066?text=Halo%20Commander%2C%20saya%20ingin%20briefing%20mission%20VIBOXS%20(Website%20%2B%20AI%20Automation).";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -243,28 +242,35 @@ export function Hero() {
           className="relative z-[6] mt-8 sm:mt-10 grid items-center gap-6 md:grid-cols-12"
           style={{ transform: `translate3d(0, ${cardsY}px, 0)` }}
         >
-          <div className="md:col-span-5">
+          <div className="md:col-span-6 flex flex-wrap gap-3">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center justify-between gap-3 rounded-full bg-foreground px-6 py-4 text-sm font-semibold text-background transition-all hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] w-full sm:w-auto"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-foreground px-6 py-4 text-sm font-semibold text-background transition-all hover:scale-[1.02] hover:shadow-[var(--shadow-glow)]"
             >
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
-                Start Website &amp; AI Mission
+                Konsultasi dengan Commander
               </span>
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-background text-foreground transition-transform group-hover:rotate-45">
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </span>
             </a>
+            <Link
+              to="/portfolio"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-4 text-sm font-semibold text-foreground transition-all hover:bg-white/[0.08]"
+            >
+              Lihat Portfolio
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
           </div>
 
-          <div className="md:col-span-7 flex flex-col gap-2.5 text-sm">
+          <div className="md:col-span-6 flex flex-col gap-2.5 text-sm">
             {[
-              "Mission plan dalam 24 jam.",
-              "Direct line ke Commander Dede.",
-              "7× lebih murah, 3× lebih cepat.",
+              "Mission plan & estimasi scope dalam 24 jam.",
+              "Direct line ke Commander Dede — bukan support generic.",
+              "Structured process: scope, timeline, review, handover.",
             ].map((t, i) => (
               <div
                 key={t}
@@ -280,99 +286,48 @@ export function Hero() {
           </div>
         </div>
 
-        {/* BOTTOM ROW — three info cards */}
+        {/* BOTTOM ROW — capability cards */}
         <div
-          className="relative z-[6] mt-10 grid gap-5 md:grid-cols-12"
+          className="relative z-[6] mt-10 grid gap-5 md:grid-cols-2"
           style={{ transform: `translate3d(0, ${cardsY * 1.4}px, 0)` }}
         >
-          {/* Card 1 — Website */}
-          <div className="md:col-span-4 glass rounded-2xl p-5 flex flex-col justify-between hover:bg-white/[0.04] transition">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Globe className="h-4 w-4 text-primary-glow" />
-                <span className="font-display text-base font-semibold text-foreground">
-                  Premium Website Design
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Website cinematic, high-converting, dan siap launch — dirancang
-                untuk founder yang ingin tampil seperti brand kelas dunia.
-              </p>
+          <div className="glass rounded-2xl p-5 hover:bg-white/[0.04] transition">
+            <div className="flex items-center gap-2 mb-2">
+              <Globe className="h-4 w-4 text-primary-glow" />
+              <span className="font-display text-base font-semibold text-foreground">
+                Website Systems
+              </span>
             </div>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-[11px] font-mono tracking-[0.2em] text-foreground hover:bg-white/5 transition"
-            >
-              EXPLORE NOW
-              <ArrowUpRight className="h-3 w-3" />
-            </a>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Premium website, landing page, brand website, dan startup-ready
+              digital presence yang siap membangun trust.
+            </p>
           </div>
 
-          {/* Card 2 — AI Automation */}
-          <div className="md:col-span-4 glass rounded-2xl p-5 flex flex-col justify-between hover:bg-white/[0.04] transition">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Cpu className="h-4 w-4 text-primary-glow" />
-                <span className="font-display text-base font-semibold text-foreground">
-                  AI Automation Systems
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Otomatiskan workflow, leads, respons, dan operasi harian.
-                Hilangkan kerja repetitif — biarkan AI yang menjalankan misi.
-              </p>
+          <div className="glass rounded-2xl p-5 hover:bg-white/[0.04] transition">
+            <div className="flex items-center gap-2 mb-2">
+              <Cpu className="h-4 w-4 text-primary-glow" />
+              <span className="font-display text-base font-semibold text-foreground">
+                AI Automation
+              </span>
             </div>
-            <a
-              href="#mission"
-              className="mt-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-[11px] font-mono tracking-[0.2em] text-foreground hover:bg-white/5 transition"
-            >
-              LIHAT MISSION FLOW
-              <ArrowUpRight className="h-3 w-3" />
-            </a>
-          </div>
-
-          {/* Card 3 — Launch Faster */}
-          <div className="md:col-span-4">
-            <a
-              href="#showcase"
-              className="group relative block glass-strong rounded-2xl p-4 overflow-hidden hover:bg-white/5 transition h-full"
-            >
-              <div className="flex items-start gap-3">
-                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[var(--gradient-aurora)]">
-                  <div className="absolute inset-0 stars opacity-60" />
-                  <span className="absolute inset-0 flex items-center justify-center">
-                    <Play className="h-5 w-5 text-primary-foreground fill-current" />
-                  </span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="font-display text-base font-semibold text-foreground">
-                    Launch Faster with VIBOXS
-                  </div>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-3">
-                    Satu command center untuk strategi, design, build, dan
-                    automation — dijalankan oleh tujuh elite Rangers.
-                  </p>
-                </div>
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-foreground transition-transform group-hover:rotate-45">
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </span>
-              </div>
-            </a>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Workflow automation, lead handling, dashboard, notifikasi, dan
+              AI-assisted operations untuk bisnis yang siap scale.
+            </p>
           </div>
         </div>
 
         {/* Supporting tagline */}
         <p className="relative z-[6] mt-8 max-w-2xl text-sm leading-relaxed text-foreground/75">
-          <span className="text-foreground">Premium websites &amp; AI automation</span>{" "}
-          untuk founder yang ingin launch lebih cepat, kerja lebih cerdas, dan
-          scale tanpa friksi. VIBOXS membangun fondasi digital dan workflow
-          intelligent yang mengubah ide jadi momentum bisnis nyata.
+          <span className="text-foreground">VIBOXS</span> membantu startup,
+          founder, dan bisnis growing membangun presence digital yang lebih
+          meyakinkan, workflow yang lebih otomatis, dan sistem yang lebih siap
+          untuk scale.
         </p>
 
         <p className="relative z-[6] mt-6 font-mono text-[10px] sm:text-xs tracking-[0.3em] text-muted-foreground/60">
-          150+ MISSIONS DEPLOYED · 98% COMMANDER SATISFACTION · 24/7 BASECAMP · EST. 2024
+          MISSION HORIZON · BUILD · AUTOMATE · LAUNCH · DIRECT COMMANDER HANDLING
         </p>
       </div>
     </section>

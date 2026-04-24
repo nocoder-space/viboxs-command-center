@@ -2,29 +2,42 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CosmicBackground } from "@/components/site/CosmicBackground";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
-import { BrandStory } from "@/components/site/BrandStory";
-import { Rangers } from "@/components/site/Rangers";
-import { MissionFlow } from "@/components/site/MissionFlow";
-import { Showcase } from "@/components/site/Showcase";
-import { SocialProof } from "@/components/site/SocialProof";
-import { CTA } from "@/components/site/CTA";
+import { ProblemSection } from "@/components/site/ProblemSection";
+import { SolutionSection } from "@/components/site/SolutionSection";
+import { WhyViboxsSection } from "@/components/site/WhyViboxsSection";
+import { ServicesSection } from "@/components/site/ServicesSection";
+import { PricingSection } from "@/components/site/PricingSection";
+import { ProcessTimeline } from "@/components/site/ProcessTimeline";
+import { RangersSection } from "@/components/site/RangersSection";
+import { PortfolioPreview } from "@/components/site/PortfolioPreview";
+import { TrustSection } from "@/components/site/TrustSection";
+import { FAQSection } from "@/components/site/FAQSection";
+import { FinalCTA } from "@/components/site/FinalCTA";
 import { Footer } from "@/components/site/Footer";
+import { FloatingWhatsAppCTA } from "@/components/site/FloatingWhatsAppCTA";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "VIBOXS — The First Interstellar Village Agency" },
+      {
+        title:
+          "VIBOXS — Premium Website, AI Automation & Digital System Partner",
+      },
       {
         name: "description",
         content:
-          "VIBOXS is a cinematic AI creative agency where seven elite Rangers execute premium missions for ambitious brands. NASA-grade solutions at village prices.",
+          "VIBOXS membantu startup, founder, dan bisnis growing membangun website premium, AI automation, dashboard, dan sistem digital yang siap berkembang.",
       },
-      { property: "og:title", content: "VIBOXS — The First Interstellar Village Agency" },
+      {
+        property: "og:title",
+        content:
+          "VIBOXS — Premium Website, AI Automation & Digital System Partner",
+      },
       {
         property: "og:description",
         content:
-          "Recruit a Ranger. Launch a mission. A futuristic AI creative command center for ambitious brands.",
+          "Premium websites, AI automation, dashboards, dan digital systems untuk founder yang siap launch lebih cepat dan scale lebih cerdas.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -38,13 +51,19 @@ function Index() {
       <CosmicBackground />
       <Navbar />
       <Hero />
-      <BrandStory />
-      <Rangers />
-      <MissionFlow />
-      <Showcase />
-      <SocialProof />
-      <CTA />
+      <ProblemSection />
+      <SolutionSection />
+      <WhyViboxsSection />
+      <ServicesSection />
+      <PricingSection />
+      <ProcessTimeline />
+      <RangersSection />
+      <PortfolioPreview />
+      <TrustSection />
+      <FAQSection />
+      <FinalCTA />
       <Footer />
+      <FloatingWhatsAppCTA />
     </main>
   );
 }
