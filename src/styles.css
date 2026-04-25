@@ -127,6 +127,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 112px;
   }
 
   body {
@@ -213,5 +214,73 @@
   .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  section[id] {
+    scroll-margin-top: 112px;
+  }
+
+  .cinematic-section {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .cinematic-section::before {
+    content: "";
+    position: absolute;
+    inset: 10% -8% auto -8%;
+    height: 32rem;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, color-mix(in oklab, var(--primary) 12%, transparent), transparent 68%);
+    filter: blur(48px);
+    opacity: 0.55;
+  }
+
+  .hover-spotlight {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hover-spotlight::after {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 30%), oklch(1 0 0 / 0.12), transparent 36%);
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+
+  .hover-spotlight:hover::after {
+    opacity: 1;
+  }
+
+  .radar-sweep {
+    background: conic-gradient(from 0deg, transparent 0deg, color-mix(in oklab, var(--primary) 35%, transparent) 28deg, transparent 62deg);
+    animation: radar-spin 7s linear infinite;
+  }
+
+  @keyframes radar-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .beam-scan {
+    background-size: 220% 100%;
+    animation: beam-scan 5s ease-in-out infinite;
+  }
+
+  @keyframes beam-scan {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
