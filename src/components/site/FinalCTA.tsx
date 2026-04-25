@@ -4,13 +4,14 @@ import { WHATSAPP_URL } from "@/lib/contact";
 
 export function FinalCTA() {
   return (
-    <section id="contact" className="relative py-24 sm:py-32">
+    <section id="contact" className="cinematic-section relative py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="relative glass-strong rounded-[2rem] overflow-hidden p-8 sm:p-14 text-center">
           {/* aura */}
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,oklch(0.55_0.24_295/0.4),transparent_60%)] blur-3xl" />
             <div className="absolute inset-0 stars opacity-40" />
+            <div className="absolute inset-x-8 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent beam-scan" />
           </div>
 
           <div className="font-mono text-[11px] tracking-[0.3em] text-primary-glow">
@@ -30,7 +31,7 @@ export function FinalCTA() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-4 text-sm font-semibold text-background hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] transition-all"
+              className="group inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-4 text-sm font-semibold text-background hover:scale-[1.02] hover:shadow-[var(--shadow-glow)] transition-all animate-pulse-glow"
             >
               <MessageCircle className="h-4 w-4" />
               Konsultasi dengan Commander via WhatsApp
