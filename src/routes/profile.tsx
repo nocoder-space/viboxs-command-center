@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { ArrowUpRight, Check, ShieldCheck } from "lucide-react";
 import { CosmicBackground } from "@/components/site/CosmicBackground";
 import { Navbar } from "@/components/site/Navbar";
@@ -96,7 +97,7 @@ function ProfilePage() {
   );
 }
 
-function SectionTitle({ title, children }: { title: string; children?: React.ReactNode }) {
+function SectionTitle({ title, children }: { title: string; children?: ReactNode }) {
   return (
     <div className="mx-auto max-w-3xl text-center">
       <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">{title}</h2>
@@ -234,7 +235,7 @@ function CompactCard({ title }: { title: string }) {
   return <div className="rounded-2xl glass p-5 text-sm font-semibold text-foreground transition hover:-translate-y-1 hover:bg-white/[0.055]"><ShieldCheck className="mb-4 h-5 w-5 text-primary-glow" />{title}</div>;
 }
 
-function Chip({ children }: { children: React.ReactNode }) {
+function Chip({ children }: { children: ReactNode }) {
   return <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-mono text-foreground/80 ring-1 ring-white/10">{children}</span>;
 }
 
