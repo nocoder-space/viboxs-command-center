@@ -57,7 +57,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="relative isolate overflow-hidden pt-24 pb-16 sm:pt-28 sm:pb-20 min-h-[100vh]"
+      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 min-h-[100vh] scroll-mt-28"
     >
       {/* ============ STATIC CINEMATIC BACKGROUND ============ */}
       <div className="pointer-events-none absolute inset-0 -z-40">
@@ -80,6 +80,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-[30rem] bg-gradient-to-t from-background via-background/85 via-30% to-transparent" />
         {/* Subtle grain */}
         <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay [background-image:radial-gradient(oklch(1_0_0)_1px,transparent_1px)] [background-size:3px_3px]" />
+        <div className="absolute inset-0 stars opacity-30 animate-drift" />
       </div>
 
       <div className="relative mx-auto max-w-[1320px] px-4 sm:px-6">
@@ -115,7 +116,7 @@ export function Hero() {
           </div>
 
           {/* Stage container — astronaut anchored, headline overlaps */}
-          <div className="relative h-[clamp(520px,78vh,820px)] w-full">
+          <div className="relative h-[clamp(500px,72vh,760px)] w-full">
             {/* Soft purple aura — diffused, low intensity */}
             <div
               className="pointer-events-none absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 z-[1]"
@@ -126,9 +127,9 @@ export function Hero() {
 
             {/* ASTRONAUT — anchored to bottom of stage, lower body absorbed by haze */}
             <div
-              className="absolute left-1/2 bottom-0 pointer-events-none select-none z-[2]"
+              className="absolute left-1/2 bottom-0 pointer-events-none select-none z-[3] animate-float-slow"
               style={{
-                transform: `translate3d(calc(-50% - 10px), ${astroSink}px, 0)`,
+                transform: `translate3d(calc(-50% - 4px), ${astroSink}px, 0)`,
                 willChange: "transform, opacity",
                 opacity: Math.max(0, astroOpacity),
                 filter: "drop-shadow(0 30px 70px oklch(0.35 0.22 295 / 0.65))",
@@ -144,15 +145,16 @@ export function Hero() {
                 alt="VIBOXS Commander astronaut in cosmic purple armor"
                 width={1100}
                 height={1100}
-                className="block w-[clamp(460px,62vw,820px)] h-auto object-contain"
+                className="block w-[clamp(380px,52vw,700px)] h-auto object-contain"
               />
+              <div className="absolute left-[47%] top-[18%] h-20 w-28 -translate-x-1/2 rounded-full bg-primary/20 blur-2xl animate-pulse-glow" />
             </div>
 
             {/* HEADLINE — refined: clean composition, transparent over astronaut body */}
-            <div className="absolute inset-0 z-[5] pointer-events-none flex flex-col justify-center">
+            <div className="absolute inset-0 z-[5] pointer-events-none flex flex-col justify-center md:justify-center">
               <h1
-                className="font-display font-semibold tracking-[-0.04em] leading-[0.92] max-w-[1180px] mx-auto px-2 sm:px-4"
-                style={{ fontSize: "clamp(2.2rem, 7.6vw, 7rem)" }}
+                className="font-display font-semibold tracking-[-0.035em] leading-[0.96] max-w-[1080px] mx-auto px-2 sm:px-4 -translate-y-[4%]"
+                style={{ fontSize: "clamp(2.05rem, 6.4vw, 6rem)" }}
               >
                 {/* Line 1 — solid, sits above astronaut helmet area */}
                 <span
@@ -160,7 +162,7 @@ export function Hero() {
                   style={{
                     animationDelay: "60ms",
                     transform: `translate3d(${lineLeftX * 0.5}px, 0, 0)`,
-                    color: "oklch(0.99 0.01 285 / 0.96)",
+                    color: "oklch(0.99 0.01 285 / 0.9)",
                     textShadow:
                       "0 1px 24px oklch(0.10 0.05 285 / 0.75), 0 0 60px oklch(0.55 0.22 295 / 0.28)",
                   }}
@@ -175,11 +177,11 @@ export function Hero() {
                     animationDelay: "180ms",
                     transform: `translate3d(${lineRightX * 0.5}px, 0, 0)`,
                     background:
-                      "linear-gradient(180deg, oklch(0.99 0.02 285 / 0.55) 0%, oklch(0.78 0.16 295 / 0.45) 100%)",
+                      "linear-gradient(180deg, oklch(0.99 0.02 285 / 0.48) 0%, oklch(0.78 0.16 295 / 0.34) 100%)",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     color: "transparent",
-                    WebkitTextStroke: "0.5px oklch(1 0 0 / 0.35)",
+                    WebkitTextStroke: "0.5px oklch(1 0 0 / 0.42)",
                     filter: "drop-shadow(0 2px 18px oklch(0.10 0.05 285 / 0.55))",
                     mixBlendMode: "screen",
                   }}
@@ -193,7 +195,7 @@ export function Hero() {
                   style={{
                     animationDelay: "300ms",
                     transform: `translate3d(${lineCenterX}px, 0, 0)`,
-                    WebkitTextStroke: "1px oklch(1 0 0 / 0.55)",
+                    WebkitTextStroke: "1px oklch(1 0 0 / 0.48)",
                     color: "transparent",
                   }}
                 >
