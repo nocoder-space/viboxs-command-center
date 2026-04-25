@@ -74,7 +74,7 @@ const rangers: Ranger[] = [
 
 export function RangersSection() {
   return (
-    <section id="rangers" className="relative py-24 sm:py-32">
+    <section id="rangers" className="cinematic-section relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="07 · CAPABILITY SYSTEM"
@@ -117,7 +117,9 @@ export function RangersSection() {
             );
           };
           return (
-            <div className="mt-14 space-y-4 sm:space-y-5">
+            <div className="relative mt-14 space-y-4 sm:space-y-5">
+              <div className="pointer-events-none absolute inset-0 hidden rounded-full border border-primary/10 lg:block" />
+              <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full glass-strong text-center font-mono text-[10px] tracking-[0.22em] text-primary-glow lg:grid place-items-center">MISSION<br />CORE</div>
               <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {rangers.slice(0, 4).map(renderCard)}
               </div>
