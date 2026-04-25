@@ -153,8 +153,8 @@ export function Hero() {
             {/* HEADLINE — refined: clean composition, transparent over astronaut body */}
             <div className="absolute inset-0 z-[5] pointer-events-none flex flex-col justify-center md:justify-center">
               <h1
-                className="font-display font-semibold tracking-[-0.035em] leading-[0.96] max-w-[1080px] mx-auto px-2 sm:px-4 -translate-y-[4%]"
-                style={{ fontSize: "clamp(2.05rem, 6.4vw, 6rem)" }}
+                className="font-display font-semibold tracking-[-0.025em] leading-[0.98] max-w-[980px] mx-auto px-2 sm:px-4 -translate-y-[6%]"
+                style={{ fontSize: "clamp(2rem, 5.55vw, 5.35rem)" }}
               >
                 {/* Line 1 — solid, sits above astronaut helmet area */}
                 <span
@@ -162,7 +162,7 @@ export function Hero() {
                   style={{
                     animationDelay: "60ms",
                     transform: `translate3d(${lineLeftX * 0.5}px, 0, 0)`,
-                    color: "oklch(0.99 0.01 285 / 0.9)",
+                    color: "oklch(0.99 0.01 285 / 0.92)",
                     textShadow:
                       "0 1px 24px oklch(0.10 0.05 285 / 0.75), 0 0 60px oklch(0.55 0.22 295 / 0.28)",
                   }}
