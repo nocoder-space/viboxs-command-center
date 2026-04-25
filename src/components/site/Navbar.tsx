@@ -6,6 +6,7 @@ import { WHATSAPP_URL } from "@/lib/contact";
 const links = [
   { label: "Home", to: "/" as const },
   { label: "Portfolio", to: "/portfolio" as const },
+  { label: "Profile", to: "/profile" as const },
 ];
 
 export function Navbar() {

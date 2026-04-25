@@ -25,6 +25,9 @@ export function Footer() {
             <Link to="/portfolio" className="hover:text-foreground transition">
               Portfolio
             </Link>
+            <Link to="/profile" className="hover:text-foreground transition">
+              Profile
+            </Link>
             <a
               href={WHATSAPP_URL}
               target="_blank"

@@ -275,6 +275,20 @@
     50% { background-position: 100% 50%; }
   }
 
+  .character-stage {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+
+  .accent-commander { --character-accent: oklch(0.76 0.18 300); }
+  .accent-nexus { --character-accent: oklch(0.62 0.22 250); }
+  .accent-flux { --character-accent: oklch(0.78 0.16 205); }
+  .accent-spark { --character-accent: oklch(0.68 0.25 315); }
+  .accent-vault { --character-accent: oklch(0.82 0.02 285); }
+  .accent-pulse { --character-accent: oklch(0.72 0.18 55); }
+  .accent-forge { --character-accent: oklch(0.72 0.18 155); }
+  .accent-echo { --character-accent: oklch(0.9 0.08 95); }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
